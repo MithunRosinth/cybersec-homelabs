@@ -1,22 +1,19 @@
-# -*- mode: ruby -*-
-# vi: set ft=ruby :
 
 Vagrant.configure("2") do |config|
   config.vm.box = "ubuntu/jammy64"
-  config.vm.box_check_update = false
-  config.vm.network "forwarded_port", guest: 443, host: 8080
   config.vm.hostname = "wazuh"
-  config.vm.network "private_network", ip: "192.168.10.1"
+  config.vm.network "private_network", ip: "10.10.1.10"
 
   config.vm.provider "virtualbox" do |vb|
     vb.gui = false
-    vb.memory = "8192"
-    vb.cpus = 4
+    vb.memory = "4096"
+    vb.cpus = "2"
   end
 
   config.vm.provision "shell", inline: <<-SHELL
-    apt-get update
-    apt-get install -y curl
+    apt update
+    apt install -y curl
+    curl -fsSL https://tailscale.com/install.sh | sh
     curl -sO https://packages.wazuh.com/4.5/wazuh-install.sh && bash ./wazuh-install.sh -a
   SHELL
 end
