@@ -10,14 +10,12 @@ Vagrant.configure("2") do |config|
     end
 
     config.vm.provision "shell", inline: <<-'POWERHSELL'
-        Set-TimeZone "Asia/Dubai"
+        Set-TimeZone "Arabian Standard Time"
         Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
 
         choco install -y firefox
         choco install -y 7zip
         choco install -y tailscale
-
-        Install-ChocolateyPinnedTaskBarItem "${env:ProgramFiles(x86)}\Mozilla Firefox\firefox.exe"
 
     POWERHSELL
 
